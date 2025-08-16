@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>먹거리</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+    }
+
+    /* ===== 헤더 ===== */
+    .header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #ccc;
+        padding: 10px 20px;
+    }
+    .logo {
+        font-weight: bold;
+        font-size: 18px;
+    }
+    .nav {
+        display: flex;
+        gap: 15px;
+    }
+    .nav a {
+        text-decoration: none;
+        color: black;
+        font-weight: 500;
+    }
+    .menu-toggle {
+        display: none;
+        font-size: 22px;
+        cursor: pointer;
+    }
+    @media (max-width: 600px) {
+        .nav {
+            display: none;
+            flex-direction: column;
+            background: #ddd;
+            position: absolute;
+            top: 50px;
+            right: 0;
+            width: 150px;
+            padding: 10px;
+        }
+        .nav.show {
+            display: flex;
+        }
+        .menu-toggle {
+            display: block;
+        }
+    }
+
+    /* ===== 지도 영역 ===== */
+    .map-area {
+        border: 1px solid #ccc;
+        height: 250px;
+    }
+
+    /* ===== 장바구니 ===== */
+    .cart {
+        border: 1px solid #ccc;
+        padding: 10px;
+        margin: 10px;
+    }
+    .mart {
+        border-bottom: 1px solid #ccc;
+        padding: 10px 0;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    .mart img {
+        width: 50px;
+        height: 50px;
+        object-fit: cover;
+    }
+    .total {
+        text-align: right;
+        font-weight: bold;
+        margin-top: 10px;
+    }
+</style>
+</head>
+<body>
+
+<!-- ===== 헤더 ===== -->
+<header class="header">
+    <div class="logo">서비스 이름</div>
+    <nav class="nav" id="navMenu">
+        <a href="#">창1</a>
+        <a href="#">창2</a>
+        <a href="#">창3</a>
+    </nav>
+    <div class="menu-toggle" id="menuToggle">☰</div>
+</header>
+
+<!-- ===== 지도 ===== -->
+<div class="map-area" id="map"></div>
+
+<!-- ===== 장바구니 ===== -->
+<div class="cart" id="cart">
+    <div class="mart">
+        <img src="https://via.placeholder.com/50" alt="상품">
+        <span>상품A</span> - <span class="price">3000</span>원
+    </div>
+    <div class="mart">
+        <img src="https://via.placeholder.com/50" alt="상품">
+        <span>상품B</span> - <span class="price">5000</span>원
+    </div>
+    <div class="total">총 금액: <span id="totalPrice">0</span>원</div>
+</div>
+
+<!-- ===== Kakao Maps API ===== -->
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=여기에_본인_APPKEY"></script>
+<script>
+    // 반응형 메뉴 토글
+    const menuToggle = document.getElementById('menuToggle');
+    const navMenu = document.getElementById('navMenu');
+    menuToggle.addEventListener('click', () => {
+        navMenu.classList.toggle('show');
+    });
+
+    // 총 금액 계산
+    function calcTotal() {
+        let total = 0;
+        document.querySelectorAll('.price').forEach(price => {
+            total += parseInt(price.textContent, 10);
+        });
+        document.getElementById('totalPrice').textContent = total.toLocaleString();
+    }
+    calcTotal();
+
+    // Kakao 지도 표시
+    var mapContainer = document.getElementById('map'),
+        mapOption = {
+            center: new kakao.maps.LatLng(37.5665, 126.9780), // 서울 중심좌표
+            level: 5
+        };
+    var map = new kakao.maps.Map(mapContainer, mapOption);
+
+    // 사용자 위치 마커
+    var userMarker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(37.5665, 126.9780)
+    });
+    userMarker.setMap(map);
+
+    // 마트 위치 마커 (예시)
+    var martMarker = new kakao.maps.Marker({
+        position: new kakao.maps.LatLng(37.5700, 126.9820)
+    });
+    martMarker.setMap(map);
+
+    // 경로 라인
+    var linePath = [
+        new kakao.maps.LatLng(37.5665, 126.9780),
+        new kakao.maps.LatLng(37.5700, 126.9820)
+    ];
+    var polyline = new kakao.maps.Polyline({
+        path: linePath,
+        strokeWeight: 4,
+        strokeColor: '#FF0000',
+        strokeOpacity: 0.8
+    });
+    polyline.setMap(map);
+</script>
+
+</body>
+</html>
