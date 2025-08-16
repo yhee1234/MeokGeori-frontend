@@ -1,71 +1,102 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: 'Malgun Gothic', '맑은 고딕', sans-serif;
+    text-align: center;
+    background-color: #f0f4f7;
+    padding: 50px 20px;
+    color: #333;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     min-height: 100vh;
-    margin: 0;
-    background-color: #f4f7f6;
-    color: #333;
-    text-align: center;
+    box-sizing: border-box;
 }
 
 h1 {
+    margin-bottom: 10px;
     color: #2c3e50;
-    margin-bottom: 20px;
 }
 
 p {
     margin-bottom: 30px;
+    font-size: 1.1em;
 }
 
 button {
     background-color: #3498db;
+    border: none;
     color: white;
     padding: 12px 25px;
-    border: none;
-    border-radius: 5px;
     font-size: 16px;
+    border-radius: 5px;
     cursor: pointer;
+    margin: 10px;
     transition: background-color 0.3s ease;
-    margin-bottom: 20px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-button:hover {
+button:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+    box-shadow: none;
+}
+
+button:hover:not(:disabled) {
     background-color: #2980b9;
 }
 
-/* ⭐⭐ 비활성화된 버튼 스타일 ⭐⭐ */
-button:disabled {
-    background-color: #cccccc; /* 회색 배경 */
-    cursor: not-allowed; /* 금지 커서 */
+/* 지도가 보일 영역. 크기가 명확히 정의되어야 합니다. */
+#map {
+    width: 600px;
+    height: 400px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #e9ecef; /* 로딩 중 배경색 */
+    /* 지도가 로드되기 전 초기 메시지 중앙 정렬을 위함 */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    color: #666;
+    overflow: hidden; /* 지도 컨트롤이 컨테이너 밖으로 나가지 않도록 */
 }
 
-/* ⭐⭐ 메시지 표시 영역 공통 스타일 ⭐⭐ */
+/* 상태 메시지 스타일 */
 #statusMessage {
-    padding: 15px;
-    margin-top: 20px;
-    margin-bottom: 20px; /* 아래 여백 추가 */
-    border-radius: 5px;
     max-width: 600px;
-    word-break: keep-all; /* 단어 단위로 줄바꿈 */
-    display: block; /* 초기에도 보임 */
-    font-size: 1.05em; /* 글자 크기 조금 키움 */
-    line-height: 1.4; /* 줄 간격 설정 */
-    box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* 은은한 그림자 */
+    width: 90%; /* 반응형 고려 */
+    margin: 0 auto 20px auto;
+    padding: 15px;
+    border-radius: 5px;
+    font-weight: 600;
+    box-sizing: border-box; /* 패딩과 보더가 너비/높이에 포함되도록 */
+    line-height: 1.4; /* 줄 간격 */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.08); /* 그림자 효과 */
 }
 
-/* 성공 메시지 스타일 */
-.info-message {
-    color: #28a745; /* 초록색 텍스트 */
-    background-color: #d4edda; /* 연한 초록색 배경 */
-    border: 1px solid #c3e6cb; /* 테두리 */
+/* 메시지 종류별 스타일 */
+.message-default, .message-success {
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+    color: #155724;
 }
 
-/* 오류 메시지 스타일 */
-.error-message {
-    color: #dc3545; /* 빨간색 텍스트 */
-    background-color: #f8d7da; /* 연한 빨간색 배경 */
-    border: 1px solid #f5c6cb; /* 테두리 */
+.message-error {
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+    color: #721c24;
+}
+
+.message-loading {
+    background-color: #fff3cd;
+    border: 1px solid #ffeeba;
+    color: #856404;
+}
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    #map {
+        width: 95%;
+        height: 300px;
+    }
 }

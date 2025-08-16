@@ -1,99 +1,189 @@
-document.addEventListener('DOMContentLoaded', () => {
+document.addEventListener('DOMContentLoaded', function () {
     const getLocationBtn = document.getElementById('getLocationBtn');
-    const statusMessageDiv = document.getElementById('statusMessage'); // 메시지 표시 div
-    const startButton = document.getElementById('startButton'); // 시작하기 버튼
+    const startButton = document.getElementById('startButton');
+    const statusMessage = document.getElementById('statusMessage');
+    const mapContainer = document.getElementById('map');
 
-    // 초기 상태 메시지 설정
-    statusMessageDiv.innerHTML = '<p>"내 위치 확인하기" 버튼을 눌러 위치를 설정해주세요.</p>';
-    startButton.disabled = true; // 시작하기 버튼 비활성화
+    let map = null; // 카카오 지도 객체
+    let marker = null; // 위치 표시 마커
+    let geocoder = null; // Geocoder 객체
+    
+    // 페이지 로드 시 초기 메시지 설정
+    statusMessage.textContent = '위치 확인을 시작하려면 \'내 위치 확인하기\' 버튼을 누르세요.';
+    statusMessage.className = 'message-default'; 
+    startButton.disabled = true; // 시작 버튼 초기 비활성화
 
-    if (getLocationBtn && statusMessageDiv && startButton) {
-        getLocationBtn.addEventListener('click', () => {
-            // 버튼 클릭 시 초기화
-            statusMessageDiv.innerHTML = '<p>위치 정보를 가져오는 중입니다...</p>';
-            statusMessageDiv.classList.remove('info-message', 'error-message');
-            startButton.disabled = true; // 새 요청 시 시작하기 버튼 비활성화
+    // 지도 영역에 초기 텍스트 표시
+    mapContainer.innerHTML = '지도가 여기에 표시됩니다.';
+    mapContainer.style.backgroundColor = '#e9ecef'; // 초기 배경색 유지
 
-            // Geolocation API 지원 여부 확인
-            if (navigator.geolocation) {
-                // 현재 위치 가져오기
-                navigator.geolocation.getCurrentPosition(
-                    (position) => { // 위치를 성공적으로 가져왔을 때 실행될 함수
-                        const latitude = position.coords.latitude;    // 위도
-                        const longitude = position.coords.longitude;  // 경도
-                        
-                        // ⭐⭐ 위도/경도를 소수점 둘째 자리까지 포맷 ⭐⭐
-                        const formattedLatitude = latitude.toFixed(2);
-                        const formattedLongitude = longitude.toFixed(2);
-                        
-                        // ⭐⭐ 성공 메시지 내용 변경: 위도와 경도만 표시 ⭐⭐
-                        const successMessage = `
-                            <p><b>✨ 현재 위치:</b> 위도 ${formattedLatitude}, 경도 ${formattedLongitude}</p>
-                            <p>위치 설정이 완료되었습니다! 아래 '시작하기' 버튼을 눌러주세요.</p>
-                        `;
-                        statusMessageDiv.innerHTML = successMessage;
-                        statusMessageDiv.classList.add('info-message'); // 성공 메시지 클래스 추가
-                        startButton.disabled = false; // ⭐⭐ 시작하기 버튼 활성화 ⭐⭐
-
-                        console.log(`위도: ${formattedLatitude}, 경도: ${formattedLongitude}`);
-                        
-                    },
-                    (error) => { // 위치 가져오기에 실패했을 때 실행될 함수
-                        let errorMessageText = "위치 정보를 가져오는 데 실패했습니다: ";
-                        switch(error.code) {
-                            case error.PERMISSION_DENIED:
-                                errorMessageText += "사용자가 위치 정보 동의를 거부했습니다.<br> (브라우저 설정에서 위치 권한을 허용해주세요)";
-                                break;
-                            case error.POSITION_UNAVAILABLE:
-                                errorMessageText += "위치 정보를 사용할 수 없습니다.<br> (위치 서비스가 켜져 있는지 확인해주세요)";
-                                break;
-                            case error.TIMEOUT:
-                                errorMessageText += "위치 정보를 가져오는 시간이 초과되었습니다.<br> (네트워크 환경 확인 후 다시 시도해주세요)";
-                                break;
-                            default:
-                                errorMessageText += "알 수 없는 오류가 발생했습니다.<br> (다시 시도해주세요)";
-                                break;
-                        }
-                        console.error(errorMessageText);
-                        
-                        statusMessageDiv.innerHTML = `<p>${errorMessageText}</p>`;
-                        statusMessageDiv.classList.add('error-message'); // 오류 메시지 클래스 추가
-                        startButton.disabled = true; // 오류 시 시작하기 버튼 비활성화
-                    },
-                    { // 옵션 (선택 사항) - 속도 개선을 위해 enableHighAccuracy를 false로 설정 가능
-                        enableHighAccuracy: false, // 정확도를 낮추고 속도 개선 시도 (선택 사항)
-                        timeout: 5000,             // 5초 내 응답 없으면 타임아웃
-                        maximumAge: 0              // 캐시된 위치 정보 사용 안 함
-                    }
-                );
-            } else {
-                const browserNotSupportMsg = "<p>죄송합니다. 이 브라우저에서는 Geolocation API를 지원하지 않습니다. 😢</p>";
-                console.error(browserNotSupportMsg);
-                
-                statusMessageDiv.innerHTML = browserNotSupportMsg;
-                statusMessageDiv.classList.add('error-message');
-                startButton.disabled = true;
-            }
+    // ⭐⭐ 카카오 지도 API 로드 및 초기화 로직 ⭐⭐
+    // API의 모든 컴포넌트(map, services)가 로드 완료된 후에 지도/Geocoder 객체를 생성합니다.
+    if (typeof kakao !== 'undefined' && kakao.maps && kakao.maps.load) {
+        kakao.maps.load(function() {
+            geocoder = new kakao.maps.services.Geocoder();
+            console.log("Kakao Maps API 및 Geocoder 객체 생성 완료.");
+            
+            statusMessage.textContent = '서비스 준비 완료! \'내 위치 확인하기\' 버튼을 눌러 위치를 찾으세요.';
+            statusMessage.className = 'message-success';
+            
+        }, { 
+            libraries: ['services'] 
         });
-
-        // "시작하기" 버튼 클릭 이벤트
-        startButton.addEventListener('click', () => {
-            if (!startButton.disabled) {
-                // 메인 메뉴로 이동하는 로직 (현재는 간단한 메시지로 대체)
-                statusMessageDiv.classList.remove('info-message', 'error-message');
-                statusMessageDiv.innerHTML = `
-                    <p>메인 메뉴로 진입합니다!</p>
-                    <p>사용자님을 위한 맞춤형 서비스를 지금부터 경험해 보세요! ✨</p>
-                `;
-                statusMessageDiv.classList.add('info-message'); // 성공적인 진행 메시지
-                startButton.style.display = 'none'; // 시작하기 버튼 숨기기 (선택 사항)
-                getLocationBtn.style.display = 'none'; // 위치 확인 버튼 숨기기 (선택 사항)
-                
-                console.log("메인 메뉴로 이동합니다!");
-
-                // ⭐⭐ 여기에서 메인 메뉴 관련 UI를 띄우거나, 다른 페이지로 리다이렉트 ⭐⭐
-                // 예를 들어: window.location.href = 'main_menu.html';
-            }
-        });
+    } else {
+        console.error("Kakao Maps API 로드 객체를 찾을 수 없거나 kakao.maps.load 함수가 없습니다. API 스크립트 로드에 문제가 있을 수 있습니다.");
+        statusMessage.textContent = '지도 서비스 로드에 실패했습니다. API 키 또는 네트워크를 확인하세요.';
+        statusMessage.className = 'message-error';
+        getLocationBtn.disabled = true; 
+        startButton.disabled = true;
+        return;
     }
+
+    // '내 위치 확인하기' 버튼 클릭 이벤트 리스너
+    getLocationBtn.addEventListener('click', function () {
+        console.log("getLocationBtn 클릭됨. 위치 정보 요청 시작.");
+
+        if (!navigator.geolocation) {
+            statusMessage.textContent = '현재 브라우저에서는 위치 정보를 지원하지 않습니다.';
+            statusMessage.className = 'message-error';
+            startButton.disabled = true;
+            return;
+        }
+        
+        if (!geocoder) { 
+            statusMessage.textContent = '위치 서비스가 아직 준비되지 않았습니다. 잠시 후 다시 시도해주세요.';
+            statusMessage.className = 'message-error';
+            console.error("Geocoder 객체가 아직 초기화되지 않았습니다. Kakao API 로드 문제.");
+            return;
+        }
+
+        statusMessage.textContent = '위치 정보를 가져오는 중입니다...';
+        statusMessage.className = 'message-loading';
+        startButton.disabled = true; 
+
+        mapContainer.innerHTML = '위치 확인 중, 지도 로딩 대기...'; // 로딩 메시지
+        mapContainer.style.backgroundColor = '#e9ecef'; 
+
+
+        navigator.geolocation.getCurrentPosition(
+            function (position) { 
+                console.log("getCurrentPosition 성공 콜백 진입.");
+
+                const lat = position.coords.latitude;
+                const lng = position.coords.longitude;
+
+                console.log(`Geolocation 성공: 위도 ${lat}, 경도 ${lng}`);
+                
+                const locPosition = new kakao.maps.LatLng(lat, lng);
+                if (map === null) { 
+                    map = new kakao.maps.Map(mapContainer, {
+                        center: locPosition, 
+                        level: 3, 
+                    });
+                    console.log('새로운 카카오 지도가 생성되었습니다.');
+
+                    // 지도가 생성된 직후, 그리고 타일 로드 완료 시점에 relayout 호출 (가장 안정적)
+                    kakao.maps.event.addListener(map, 'tilesloaded', function() {
+                        if (map) {
+                           map.relayout();
+                           console.log('Map relayout triggered after tilesloaded event.');
+                           // ⭐⭐⭐ 문제 해결: 맵 로딩 후 메시지만 제거하고 innerHTML 비우지 않음 ⭐⭐⭐
+                           mapContainer.style.backgroundColor = 'transparent'; // 배경색 투명화
+                           console.log('mapContainer 배경 투명화 완료.');
+                        }
+                    });
+
+                } else { 
+                    map.setCenter(locPosition);
+                    map.setLevel(3); 
+                    if (map) {
+                        map.relayout(); 
+                        console.log('Existing map center moved and relayout triggered.');
+                        // ⭐⭐⭐ 문제 해결: 맵 로딩 후 메시지만 제거하고 innerHTML 비우지 않음 ⭐⭐⭐
+                        mapContainer.style.backgroundColor = 'transparent'; // 배경색 투명화
+                        console.log('mapContainer 배경 투명화 완료.');
+                    }
+                }
+                
+                // 마커 생성 또는 이동
+                if (marker === null) {
+                    marker = new kakao.maps.Marker({
+                        position: locPosition, 
+                        map: map, 
+                    });
+                    console.log('새로운 마커가 추가되었습니다.');
+                } else {
+                    marker.setPosition(locPosition); 
+                    marker.setMap(map); 
+                    console.log('기존 마커 위치가 업데이트되었습니다.');
+                }
+                
+
+                // 좌표를 주소로 변환하는 역지오코딩 요청
+                geocoder.coord2Address(lng, lat, function(result, status) {
+                    // mapContainer.style.backgroundColor는 tilesloaded 이벤트에서 처리됩니다.
+
+                    if (status === kakao.maps.services.Status.OK && result[0]) {
+                        const address = result[0].address ? result[0].address.address_name : '주소 정보 없음';
+                        
+                        statusMessage.innerHTML = `
+                            현재 위치: ${address}<br> (위도: ${lat.toFixed(2)}, 경도: ${lng.toFixed(2)})
+                        `;
+                        statusMessage.className = 'message-success';
+                        startButton.disabled = false; 
+                        console.log('역지오코딩 성공:', address);
+
+                    } else {
+                        statusMessage.innerHTML = `
+                            현재 위치: 주소 정보를 가져오지 못했습니다.<br> (위도: ${lat.toFixed(2)}, 경도: ${lng.toFixed(2)})
+                        `;
+                        statusMessage.className = 'message-error';
+                        startButton.disabled = false; 
+                        console.error('역지오코딩 실패. Kakao API 상태:', status);
+                    }
+                });
+            },
+            function (error) { 
+                console.log("getCurrentPosition 실패 콜백 진입.");
+
+                let message = '위치 정보를 가져오는데 실패했습니다.';
+                switch (error.code) {
+                    case error.PERMISSION_DENIED:
+                        message = '사용자가 위치 정보 사용을 거부했습니다. 브라우저 설정에서 위치 권한을 허용하세요.';
+                        break;
+                    case error.POSITION_UNAVAILABLE:
+                        message = '위치 정보를 사용할 수 없습니다. 장치의 위치 서비스가 켜져 있는지 확인하세요.';
+                        break;
+                    case error.TIMEOUT:
+                        message = '위치 정보를 가져오는 시간이 초과되었습니다. 네트워크 연결 상태를 확인하고 다시 시도하세요.';
+                        break;
+                    default:
+                        message = '알 수 없는 오류가 발생했습니다.';
+                        break;
+                }
+                statusMessage.textContent = message;
+                statusMessage.className = 'message-error';
+                startButton.disabled = true; 
+                mapContainer.innerHTML = '위치 정보 로딩 실패.'; 
+                mapContainer.style.backgroundColor = '#f8d7da'; 
+                console.error('Geolocation 실패:', error.code, message);
+            },
+            {
+                enableHighAccuracy: false,
+                timeout: 30000,             
+                maximumAge: 0,             
+            }
+        );
+    });
+
+    // '서비스 시작하기' 버튼 클릭 시 동작 
+    startButton.addEventListener('click', function () {
+        console.log("서비스 시작하기 버튼 클릭 시도됨.");
+        if (!startButton.disabled) { 
+            alert('서비스가 시작되었습니다! 이제 다음 기능 구현을 준비하세요.');
+            console.log('서비스 시작 버튼이 클릭되었습니다.');
+        } else {
+            console.log("버튼이 disabled 상태라 클릭 이벤트가 동작하지 않았습니다.");
+        }
+    });
 });
