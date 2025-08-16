@@ -6,8 +6,6 @@ function init() {
 
 document.addEventListener('DOMContentLoaded', init);
 
-
-
 // OpenAI API 요청 및 결과 처리 함수
 async function handleSubmit(event) {
   event.preventDefault();
