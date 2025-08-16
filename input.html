@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="css/input.css">
+  <link rel="stylesheet" href="css/navbar.css">
+  <title>사용자 입력화면</title>
+  <script src="js/input.js" ></script>
+  <script src="js/navbarLoader.js" ></script>
+  <script src="https://kit.fontawesome.com/ef6f900ef2.js" crossorigin="anonymous"></script>
+</head>
+<body>
+  <!-- 네비게이션 바 삽입할 영역 -->
+  <div id="navbar_input"></div>
+
+  <div class="wrapper">
+  <div class="desc">
+    <i class="fa-solid fa-lightbulb" style="color: #FFD43B;"></i>
+    더 정확한 추천을 원하시면, 인원수, 식사목적, 취향, 알레르기도 입력하여주세요!<br />
+    ex&#41; 월남쌈 만들기, 4명, 저녁모임, 채식 위주, 땅콩 알레르기
+  </div>
+
+  <div class="prompt-container">
+    <form id="prompt-form" class="prompt-form">
+      <div class="input-wrapper">
+        <textarea id="prompt-text" placeholder="오늘 먹을 메뉴와 예산을 알려주세요."></textarea>
+        <button type="submit" class="submit-btn" onclick="window.location.href='output.html'">
+          <i class="fa-solid fa-arrow-right"></i>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>
+
+
+</body>
+</html>
