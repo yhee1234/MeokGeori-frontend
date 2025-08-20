@@ -5,32 +5,49 @@ body {
 }
 
 
-/* ===== 지도 영역 ===== */
-.map-area {
-    border: 1px solid #ccc;
-    height: 250px;
+/* 지도가 보일 영역. 크기가 명확히 정의되어야 합니다. */
+#map {
+    width: 600px;
+    height: 400px;
+    margin: 20px auto;
+    border-radius: 8px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    background-color: #e9ecef; /* 로딩 중 배경색 */
+    /* 지도가 로드되기 전 초기 메시지 중앙 정렬을 위함 */
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+    font-size: 1em;
+    color: #666;
+    overflow: hidden; /* 지도 컨트롤이 컨테이너 밖으로 나가지 않도록 */
 }
 
-/* ===== 장바구니 ===== */
-.cart {
+.mart-box {
     border: 1px solid #ccc;
-    padding: 10px;
+    margin-bottom: 20px;
+    padding: 15px;
+    border-radius: 8px;
+}
+.item-list {
+    display: flex;
+    flex-wrap: wrap;
+}
+.item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     margin: 10px;
 }
-.mart {
-    border-bottom: 1px solid #ccc;
-    padding: 10px 0;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-.mart img {
-    width: 50px;
-    height: 50px;
+.item img {
+    width: 80px;
+    height: 80px;
     object-fit: cover;
 }
-.total {
-    text-align: right;
-    font-weight: bold;
-    margin-top: 10px;
+
+/* 반응형 디자인 */
+@media (max-width: 768px) {
+    #map {
+        width: 95%;
+        height: 300px;
+    }
 }

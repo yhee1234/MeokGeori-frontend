@@ -1,7 +1,6 @@
 function init() {
   loadNavbar();
   // 페이지별 다른 초기화 코드들...
-  document.getElementById('prompt-form')?.addEventListener('submit', handleSubmit);
 }
 
 document.addEventListener('DOMContentLoaded', init);

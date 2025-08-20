@@ -6,29 +6,23 @@
     <link rel="stylesheet" href="css/output.css">
     <link rel="stylesheet" href="css/navbar.css">
     <title>먹거리</title>
-    <script src="js/output.js" ></script>
+    
     <script src="js/navbarLoader.js" ></script>
     <script src="https://kit.fontawesome.com/ef6f900ef2.js" crossorigin="anonymous"></script>
+    <!-- start.html에 있는 카카오 api script 복붙 -->
+    <script 
+        type="text/javascript"
+        src="//dapi.kakao.com/v2/maps/sdk.js?appkey=5e0d0b68efda88077d8a07c1e013964d&libraries=services"
+    ></script>
+    <script src="js/output.js" ></script>
 </head>
 <body>
     <!-- 네비게이션 바 삽입할 영역 -->
     <div id="navbar_input"></div>
-
-
-    <!-- ===== 지도 ===== -->
-    <div class="map-area" id="map"></div>
-
-    <!-- ===== 장바구니 ===== -->
-    <div class="cart" id="cart">
-        <div class="mart">
-            <img src="https://via.placeholder.com/50" alt="상품">
-            <span>상품A</span> - <span class="price">3000</span>원
-        </div>
-        <div class="mart">
-            <img src="https://via.placeholder.com/50" alt="상품">
-            <span>상품B</span> - <span class="price">5000</span>원
-        </div>
-        <div class="total">총 금액: <span id="totalPrice">0</span>원</div>
-    </div>
+    
+    <h1>추천 장보기 코스</h1>
+    <div id="map"></div>
+    <div id="total-cost"></div>
+    <div id="shopping-course-container"></div>
 </body>
 </html>

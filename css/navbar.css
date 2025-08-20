@@ -13,7 +13,7 @@ a{
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgb(216, 155, 155);
+  background-color: rgb(255, 168, 87);
   padding: 4px 12px; /* 위아래 패딩 줄임 */
   height: 35px;  /* 높이 최소 40px */
   position: relative; /* 토글 버튼 절대위치 기준 */
