@@ -1,0 +1,32 @@
+/* css/global.css */
+
+/* 색상 팔레트 (따뜻한 시장 느낌 컬러) */
+:root {
+    --color-primary: #ffa12d;      /* 시장 느낌의 따뜻한 오렌지 (메인) */
+    --color-secondary: #FFD43B;    /* 밝은 노랑 (강조, 아이콘) */
+    --color-accent-dark: #d07d1e;  /* 주황 계열 어두운 톤 (호버) */
+    --color-background-light: #FFFBF5; /* 따뜻한 베이지 (배경) */
+    --color-background-dark: #F5EFEB;  /* 살짝 진한 베이지 (구분 배경) */
+    --color-text-dark: #333333;    /* 진한 글자색 */
+    --color-text-medium: #666666;  /* 중간 글자색 */
+    --color-text-light: #999999;   /* 옅은 글자색 */
+    --color-border: #EEEEEE;       /* 경계선 색상 */
+    --color-success: #368A36;      /* 성공 메시지 색상 */
+    --color-error: #CC3333;        /* 오류 메시지 색상 */
+    --color-warning: #CCAA00;      /* 경고 메시지 색상 */
+}
+
+/* 기본 HTML, Body 스타일 (페이지의 모든 기본 스타일은 여기에만) */
+html {
+    scroll-behavior: smooth; /* 부드러운 스크롤 */
+    overflow-x: hidden; /* 가로 스크롤 방지 */
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Nanum Gothic', sans-serif;
+    color: var(--color-text-dark);
+    line-height: 1.6;
+    background-color: var(--color-background-light);
+}

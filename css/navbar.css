@@ -1,78 +1,131 @@
-body {
-  margin: 0;
-  font-family: 'Black Han Sans';
-  
-}
-
-a{
-  text-decoration: none;
-  color: white;
-}
+/* css/navbar.css (네비게이션 바 전용 스타일) */
 
 .navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  background-color: rgb(255, 168, 87);
-  padding: 4px 12px; /* 위아래 패딩 줄임 */
-  height: 35px;  /* 높이 최소 40px */
-  position: relative; /* 토글 버튼 절대위치 기준 */
-}
-
-.navbar__logo{
-  font-size: 20px;
-}
-
-.navbar__menu{
-  display: flex;
-  list-style: none; 
-  padding-left: 0;
-}
-
-.navbar__menu li {
-  padding: 8px 12px;
-}
-
-.navbar__menu li:hover{
-  background-color: red;
-  border-radius: 4px;
-}
-
-.navbar__toggleBtn {
-  display: none;
-  position: absolute;
-  right: 12px;
-  font-size: 24px;
-  color: white;
-  cursor: pointer;
-  z-index: 10;
-}
-
-@media screen and (max-width: 768px) {
-  .navbar{
-    flex-direction: column;
-    align-items: flex-start;
-    padding: 8px 12px;
-    height: auto;
-  }
-
-  .navbar__menu{
-    display: none;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-  }
-
-  .navbar__menu li {
-    width: 100%;
-    text-align: center;
-  }
-
-  .navbar__toggleBtn{
-    display: block;
-  }
-
-  .navbar__menu.active{
     display: flex;
-  }
+    justify-content: space-between;
+    align-items: center;
+    background-color: var(--color-primary); /* global.css 변수 사용 */
+    padding: 0px 18px; /* 패딩 조정 */
+    height: 70px; /* 높이 조정 */
+    position: sticky; /* 스크롤 시 상단 고정 */
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 3px 6px rgba(0,0,0,0.15); /* 그림자 */
+}
+
+/* ⭐ 로고와 텍스트를 감싸는 .navbar__logo 스타일 (변경 없음) ⭐ */
+.navbar__logo {
+    display: flex; /* 로고 이미지와 텍스트 정렬 */
+    align-items: center;
+    gap: 10px; /* 간격 */
+}
+
+.navbar__logo img {
+    height: 40px; /* 로고 이미지 크기 */
+    width: 40px;
+    flex-shrink: 0; /* 크기 고정 */
+}
+
+.navbar__logo .logo-text {
+    font-size: 26px; /* 로고 폰트 크기 */
+    color: white;
+    font-weight: 700;
+}
+
+.navbar__menu {
+    display: flex; /* PC에서는 기본적으로 flex로 보여주기 */
+    list-style: none;
+    padding-left: 0;
+    margin: 0;
+}
+
+/* ⭐ 모바일 메뉴 호버 효과 버그 수정 - li에 hover 적용, a:hover 투명 ⭐ */
+.navbar__menu li {
+    overflow: hidden; /* 텍스트 오버플로우 방지 */
+}
+.navbar__menu li a {
+    padding: 24px 20px; /* 높이에 맞게 패딩 조정 */
+    text-decoration: none;
+    color: white;
+    font-weight: 400;
+    transition: background-color 0.3s ease;
+    font-size: 1.05em;
+}
+.navbar__menu li:hover { /* li에 hover 적용하여 배경 번짐 방지 */
+    background-color: rgba(0, 0, 0, 0.1);
+    border-radius: 4px; /* 선택 사항 */
+}
+.navbar__menu li a:hover { /* a 태그 자체의 hover 배경은 투명 */
+    background-color: transparent;
+}
+
+
+/* 햄버거 토글 버튼은 PC에서는 숨김 */
+.navbar__toggleBtn {
+    display: none; 
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 10;
+}
+
+/* 반응형 (네비게이션 바) */
+@media screen and (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 8px 15px;
+        height: auto;
+        box-shadow: none;
+        position: sticky; /* 내부 absolute 요소의 기준점 (navbar__header가 됨) */
+    }
+    
+    /* ⭐⭐ 모바일 햄버거 메뉴 아이콘 중앙 정렬을 위한 .navbar__header 스타일 추가 ⭐⭐ */
+    .navbar__header {
+        display: flex;
+        width: 100%;
+        justify-content: space-between; /* 로고와 토글 버튼을 양 끝으로 정렬 */
+        align-items: center; /* 세로 중앙 정렬 */
+        padding-top: 8px; /* 기존 로고 패딩 통합 */
+        padding-bottom: 8px; /* 기존 로고 패딩 통합 */
+    }
+    .navbar__logo { /* 부모인 .navbar__header가 패딩을 처리하므로 초기화 */
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+    .navbar__menu {
+        display: none; /* 모바일에서 기본 숨김 */
+        flex-direction: column;
+        width: 100%;
+        text-align: center;
+        background-color: var(--color-primary);
+        border-top: 1px solid rgba(255, 255, 255, 0.2);
+        max-height: calc(100vh - var(--navbar-header-height, 70px)); /* 화면 높이에서 헤더 높이를 뺀 만큼만 펼치기 */
+        overflow-y: auto; /* 내용 넘치면 스크롤바 생성 */
+    }
+    .navbar__menu li {
+        width: 100%;
+    }
+    .navbar__menu li a {
+        padding: 15px 0;
+        width: 100%;
+        font-size: 1.1em;
+    }
+    /* 햄버거 토글 버튼은 모바일에서 보이게 */
+    .navbar__toggleBtn {
+        display: block; 
+    }
+    .navbar__menu.active {
+        display: flex; /* active 클래스 붙으면 메뉴 보이게 */
+    }
+}
+/* 네비게이션 바 헤더의 고정 높이 변수 (navbar__menu의 max-height 계산에 사용) */
+:root {
+    --navbar-header-height: 70px; 
+}
+
+.navbar__menu li a {
+    display: block;
+    padding: 10px;
 }

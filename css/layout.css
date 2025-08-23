@@ -1,0 +1,253 @@
+/* css/layout.css */
+
+/* 섹션 공통 스타일 */
+.page-section {
+    min-height: 100vh; /* 각 섹션이 최소 화면 높이만큼 차지하도록 */
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 80px 20px; /* 상하 패딩 */
+    box-sizing: border-box; /* 패딩 포함 높이 계산 */
+}
+
+.content-wrapper {
+    max-width: 960px; /* 컨텐츠 최대 너비 */
+    width: 100%;
+    padding: 30px;
+    background-color: rgba(255, 255, 255, 0.9); /* 컨텐츠 배경 살짝 투명하게 */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* Intro 섹션의 content-wrapper는 내부 요소를 flex로 배치 */
+.section-intro .content-wrapper {
+    display: flex;
+    flex-direction: column; /* 세로 정렬 */
+    align-items: center; /* 세로 중앙 정렬 */
+    gap: 30px; /* 텍스트와 이미지 간격 */
+    text-align: left; /* 내부 텍스트 왼쪽 정렬 */
+}
+
+/* Intro 섹션의 텍스트 영역 */
+.section-intro .text-area {
+    flex: 1; /* 남은 공간 차지 */
+}
+/* Intro 섹션의 이미지 영역 */
+.section-intro .image-area {
+    flex: 1; /* 남은 공간 차지 */
+}
+.section-intro .image-area img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    border-radius: 8px; /* 이미지에도 부드러운 모서리 */
+}
+
+.page-section h2 {
+    font-size: 2.8em;
+    color: var(--color-primary); /* 섹션 제목 색상 */
+    margin-bottom: 25px;
+    font-weight: 700;
+}
+
+.page-section p {
+    font-size: 1.15em;
+    color: var(--color-text-medium);
+    margin-bottom: 30px;
+}
+
+/* 섹션별 배경색 */
+.section-intro {
+    background:
+    linear-gradient(135deg, #ffe49a 100%, #ffbe92 0%); /* 훨씬 밝은 오렌지/노랑 계열 */
+    color: black; /* 폰트 검정색 */
+}
+.section-intro h1, .section-intro h2, .section-intro p {
+    color: black; /* 폰트 검정색 */
+    text-shadow: 0 1px 3px rgba(0,0,0,0.5); /* 텍스트 그림자 */
+}
+.section-light {
+    background-color: var(--color-background-light); /* 밝은 베이지 배경 */
+}
+.section-dark {
+    background-color: var(--color-background-dark); /* 살짝 진한 베이지 배경 */
+}
+
+/* 버튼 공통 스타일 */
+button {
+    font-family: 'Nanum Gothic', sans-serif;
+    padding: 14px 30px;
+    font-size: 1.1em;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.1);
+    margin: 8px;
+}
+
+.primary-btn {
+    background-color: var(--color-primary);
+    color: white;
+}
+
+.primary-btn:hover {
+    background-color: var(--color-accent-dark);
+    transform: translateY(-2px);
+}
+
+.secondary-btn {
+    background-color: white;
+    color: var(--color-primary);
+    border: 1px solid var(--color-primary);
+}
+
+.secondary-btn:hover {
+    background-color: var(--color-primary);
+    color: white;
+    transform: translateY(-2px);
+}
+
+button:disabled {
+    background-color: var(--color-text-light);
+    color: white;
+    cursor: not-allowed;
+    box-shadow: none;
+    transform: none;
+}
+
+/* primary-btn가운데에 배치 */
+/* 텍스트와 이미지 영역 가로 배치용 래퍼 */
+.horizontal-area {
+    display: flex;
+    width: 100%;
+    gap: 30px;
+    justify-content: space-between;
+    align-items: center;
+}
+
+/* 기존 텍스트·이미지 영역 스타일 유지 */
+.section-intro .text-area {
+    flex: 1;
+    text-align: left; /* 글 왼쪽 정렬 그대로 유지 */
+}
+.section-intro .image-area {
+    flex: 1;
+}
+
+
+/* Intro 섹션 세부 */
+.section-intro .main-title {
+    font-size: 3.8em;
+    margin-bottom: 15px;
+    font-weight: 700;
+}
+.section-intro p {
+    font-size: 1.25em;
+    line-height: 1.6;
+}
+#scrollToLocationBtn {
+    margin-top: 0px;
+    background-color: white;
+    color: var(--color-primary);
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    font-weight: 700;
+}
+#scrollToLocationBtn:hover {
+    background-color: var(--color-background-dark);
+    color: var(--color-primary);
+}
+
+/* Promotion Info 섹션 */
+.promotion-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 30px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+.promotion-list li {
+    background-color: white;
+    padding: 18px 25px;
+    margin-bottom: 15px;
+    border-radius: 10px;
+    text-align: left;
+    box-shadow: 0 2px 8px rgba(0,0,0,0);
+    font-size: 1.05em;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    color: var(--color-text-dark);
+}
+.promotion-list li i {
+    color: var(--color-primary);
+    font-size: 1.4em;
+    flex-shrink: 0;
+}
+
+
+/* 반응형 디자인 (큰 틀 위주) */
+@media screen and (max-width: 992px) {
+    .content-wrapper {
+        padding: 25px;
+    }
+    .page-section h2 {
+        font-size: 2.2em;
+    }
+    .section-intro .main-title {
+        font-size: 3em;
+    }
+    /* Intro 섹션 반응형: 텍스트와 이미지를 세로로 배치 */
+    .section-intro .content-wrapper {
+        flex-direction: column;
+        text-align: center;
+        gap: 20px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .page-section {
+        padding: 50px 15px;
+    }
+    .content-wrapper {
+        padding: 20px;
+    }
+    .page-section h2 {
+        font-size: 2em;
+    }
+    .section-intro .main-title {
+        font-size: 2.5em;
+    }
+    .section-intro p {
+        font-size: 1.1em;
+    }
+    button {
+        width: 100%;
+        margin: 8px 0;
+    }
+    .promotion-list li {
+        flex-direction: column; /* 아이콘과 텍스트 세로로 */
+        align-items: flex-start;
+        padding: 15px 20px;
+        font-size: 0.95em;
+        gap: 5px; /* 간격 줄임 */
+    }
+    .promotion-list li i {
+        font-size: 1.2em;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .page-section {
+        padding: 40px 10px;
+    }
+    .page-section h2 {
+        font-size: 1.8em;
+    }
+    .section-intro .main-title {
+        font-size: 2em;
+    }
+}

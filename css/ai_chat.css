@@ -1,0 +1,94 @@
+/* css/ai_chat.css (AI 길잡이 섹션 전용 스타일) */
+
+.ai-chat-box {
+    margin-top: 30px;
+    max-width: 700px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+    text-align: left;
+    background-color: white;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    padding: 25px;
+}
+
+.ai-chat-box .desc {
+    font-size: 1em;
+    max-width: 100%;
+    color: var(--color-text-medium);
+    margin-bottom: 25px;
+    text-align: center;
+}
+.ai-chat-box .desc i {
+    color: var(--color-secondary);
+    margin-right: 8px;
+}
+
+.prompt-container {
+    width: 100%;
+}
+
+.input-wrapper {
+    position: relative;
+    width: 100%;
+    display: flex;
+    align-items: center;
+}
+
+textarea#prompt-text {
+    flex-grow: 1;
+    padding-right: 60px;
+    padding-left: 15px;
+    padding-top: 15px;
+    padding-bottom: 15px;
+    font-size: 1.05em;
+    border-radius: 10px;
+    border: 1px solid var(--color-border);
+    resize: none;
+    height: 100px;
+    box-sizing: border-box;
+    font-family: 'Nanum Gothic', sans-serif;
+}
+
+.submit-btn {
+    position: absolute;
+    right: 10px;
+    top: 40%; /* 기존값 유지, translate와 함께 수직 정렬 */
+    transform: translateY(-50%);
+    width: 43px;
+    height: 45px;
+    border-radius: 50%;
+    background-color: var(--color-primary);
+    color: white;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    transition: background-color 0.3s ease; /* transition 속성을 다시 추가 */
+}
+
+.submit-btn:hover {
+    background-color: var(--color-accent-dark);
+}
+
+.submit-btn i {
+    font-size: 1.2em;
+}
+
+
+/* 반응형 (AI Chat 섹션) */
+@media screen and (max-width: 768px) {
+    textarea#prompt-text {
+        min-height: 60px;
+        font-size: 0.95em;
+    }
+    .submit-btn {
+        width: 40px;
+        height: 40px;
+    }
+    .submit-btn i {
+        font-size: 1em;
+    }
+}

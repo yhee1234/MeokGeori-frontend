@@ -1,16 +1,21 @@
-async function loadNavbar() {
-  const res = await fetch('partials/navbar.html');
-  const navbarHtml = await res.text();
-  document.getElementById('navbar_input').innerHTML = navbarHtml;
+// js/navbarLoader.js (최종 버전)
 
-  // 삽입 완료 후 토글 버튼 이벤트 등록
-  const toggleBtn = document.querySelector('.navbar__toggleBtn');
-  const menu = document.querySelector('.navbar__menu');
+export async function loadNavbar(navbarPath) { // placeholderId 매개변수를 제거했습니다.
+    try {
+        const res = await fetch(navbarPath);
+        if (!res.ok) {
+            throw new Error(`Failed to load navbar: ${res.statusText}`);
+        }
+        const navbarHtml = await res.text();
+        
+        // document.body 에 직접 삽입합니다.
+        document.body.insertAdjacentHTML('afterbegin', navbarHtml);
 
-  if (toggleBtn && menu) {
-    toggleBtn.addEventListener('click', (event) => {
-      event.preventDefault();
-      menu.classList.toggle('active');
-    });
-  }
+    } catch (error) {
+        console.error('Error loading navbar:', error);
+        const errorDiv = document.createElement('div');
+        errorDiv.style.cssText = 'color: red; text-align: center; padding: 10px; background-color: #ffe0e0;';
+        errorDiv.textContent = '네비게이션 로드 실패';
+        document.body.insertAdjacentElement('afterbegin', errorDiv);
+    }
 }

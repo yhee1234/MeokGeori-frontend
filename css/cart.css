@@ -1,12 +1,16 @@
+/* css/cart.css (장바구니 섹션 전용 스타일) */
 
+/* ⭐ body 스타일은 global.css에서 관리하므로 여기서 제거 ⭐ */
+/*
 body {
     margin: 0;
     font-family: Arial, sans-serif;
 }
+*/
 
 
 /* 지도가 보일 영역. 크기가 명확히 정의되어야 합니다. */
-#map {
+#map2 {
     width: 600px;
     height: 400px;
     margin: 20px auto;
@@ -27,6 +31,7 @@ body {
     margin-bottom: 20px;
     padding: 15px;
     border-radius: 8px;
+    border: 1px solid var(--color-primary);
 }
 .item-list {
     display: flex;
@@ -46,7 +51,7 @@ body {
 
 /* 반응형 디자인 */
 @media (max-width: 768px) {
-    #map {
+    #map2 { /* #map 대신 #map2로 올바르게 명시되어 있습니다. */
         width: 95%;
         height: 300px;
     }

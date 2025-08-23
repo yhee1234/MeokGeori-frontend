@@ -1,33 +1,25 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="css/navbar.css">
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Source+Code+Pro:ital,wght@0,200..900;1,200..900&family=Source+Sans+3:ital,wght@0,200..900;1,200..900&display=swap" rel="stylesheet">
-  <title>Nav bar</title>
-  <script src="https://kit.fontawesome.com/ef6f900ef2.js" crossorigin="anonymous"></script>
-  <script src="js/navbarLoader.js" defer></script>
-</head>
-<body>
-  <nav class="navbar">
-    <div class="navbar__logo">
-      <img src="images/logo.png" width="20" height="20">
-      <a href="start.html">먹거리</a>
-      <!-- href에 홈화면 파일링크 먹거리 누르면 홈화면으로 돌아감 -->
-    </div>
+<!-- partials/navbar.html -->
+<nav class="navbar">
+    <!-- 모바일 환경에서 햄버거 메뉴 및 로고 정렬을 위한 헤더 영역 -->
+    <div class="navbar__header">
+        <div class="navbar__logo">
+            <!-- 로고 클릭 시 index.html로 리프레시되도록 <a> 태그 추가 -->
+            <a href="index.html" style="display: flex; align-items: center; text-decoration: none; color: white;">
+                <img src="images/logo.png" alt="로고" width="35" height="35">
+                <span class="logo-text">먹거리</span> <!-- 로고 텍스트 변경 -->
+            </a>
+        </div>
+        <!-- 햄버거 토글 버튼 -->
+        <a href="#" class="navbar__toggleBtn">
+            <i class="fa-solid fa-bars"></i>
+        </a>
+    </div> 
+    
+    <!-- 네비게이션 메뉴 목록 -->
     <ul class="navbar__menu">
-      <li><a href="">창1</a></li>
-      <li><a href="">창2</a></li>
-      <li><a href="">창3</a></li>
+        <li><a href="#intro">서비스 소개</a></li>
+        <li><a href="#location-service">시작 위치 설정</a></li>
+        <li><a href="#ai-guide">사용자 입력</a></li>
+        <li><a href="#cart-list">나의 장보기</a></li>
     </ul>
-
-    <a href="" class="navbar__toggleBtn">
-      <i class="fa-solid fa-bars"></i>
-    </a>
-
-  </nav>
-</body>
-</html>
+</nav>
