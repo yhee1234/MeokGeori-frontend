@@ -139,32 +139,13 @@ async function fetchAndDisplayDataMock(customComputeDistanceBetween) {
         return;
     }
 
-    // 모의 데이터 예시
-    const data = {
-        totalCost: 123456,
-        shoppingCourse: [
-            {
-                martName: "계명대역점", 
-                martLocation: { lat: 35.85244585141095, lng: 128.48425251642845 }, 
-                travelTime: "15분",
-                martTotalCost: 65432,
-                items: [
-                    { name: "사과", price: 3000, image: "images/product_apple.jpg" },
-                    { name: "바나나", price: 2500, image: "images/product_banana.jpg" } 
-                ]
-            },
-            {
-                martName: "성서점", 
-                martLocation: { lat: 35.85501861788225, lng: 128.49089531558284 }, 
-                travelTime: "20분",
-                martTotalCost: 58024,
-                items: [
-                    { name: "우유", price: 4000, image: "images/product_milk.jpg" },
-                    { name: "빵", price: 3500, image: "images/product_bread.jpg" } 
-                ]
-            }
-        ]
-    };
+    const storedData = sessionStorage.getItem('recommendationData');
+    if (!storedData) {
+        alert('추천 데이터가 없습니다. 다시 시도해 주세요.');
+        return;
+    }
+    const data = JSON.parse(storedData);
+
 
     const totalCostDiv = document.getElementById('total-cost');
     if(totalCostDiv) totalCostDiv.innerHTML = `<h2>총 예상 비용: ${data.totalCost.toLocaleString()}원</h2>`;

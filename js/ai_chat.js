@@ -38,7 +38,7 @@ async function handleSubmit(event) {
 
   try {
     // ⭐ 서버에 POST 요청 보내기 - 실제 서버 주소로 변경 필요 ⭐
-    const response = await fetch('YOUR_BACKEND_API_URL', { // ⭐ 서버 주소 설정 필요 ⭐
+    const response = await fetch('http://43.200.245.28:8080/api/recommend/course', { // ⭐ 서버 주소 설정 필요 ⭐
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
@@ -53,8 +53,29 @@ async function handleSubmit(event) {
       throw new Error('서버 응답 오류: ' + response.status);
     }
 
-    const data = await response.json(); // 서버 응답 성공 시 JSON 데이터 파싱
+    const apiData = await response.json(); // 서버 응답 성공 시 JSON 데이터 파싱
     
+
+    //응답 데이터 변환
+    const data = {
+      totalCost: apiData.totalCost,
+      shoppingCourse: apiData.shoppingCourse.map(sc => ({
+        martName: sc.storeName,
+        martLocation: {
+          lat: sc.storeLocation.latitude,
+          lng: sc.storeLocation.longitude
+        },
+        martTotalCost: sc.storeTotalCost,
+        items: sc.items.map(it => ({
+          name: it.name,
+          price: it.price,
+          image: it.imageUrl
+        }))
+      }))
+    };
+
+    sessionStorage.setItem('recommendationData', JSON.stringify(apiData));
+
     // AI 응답을 화면에 직접 표시하지 않고 장바구니 섹션으로 이동 (팀원분의 의도 반영)
     console.log('AI 응답:', data); // 콘솔에 응답 출력
     window.location.href = '#cart-list'; // 장바구니 섹션으로 스크롤
