@@ -37,6 +37,7 @@ async function handleSubmit(event) {
 
 
   try {
+
     // ⭐ 서버에 POST 요청 보내기 - 실제 서버 주소로 변경 필요 ⭐
     const response = await fetch('http://43.200.245.28:8080/api/recommend/course', { // ⭐ 서버 주소 설정 필요 ⭐
       method: 'POST',
@@ -74,7 +75,7 @@ async function handleSubmit(event) {
       }))
     };
 
-    sessionStorage.setItem('recommendationData', JSON.stringify(apiData));
+    sessionStorage.setItem('recommendationData', JSON.stringify(data));
 
     // AI 응답을 화면에 직접 표시하지 않고 장바구니 섹션으로 이동 (팀원분의 의도 반영)
     console.log('AI 응답:', data); // 콘솔에 응답 출력

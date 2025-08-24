@@ -209,6 +209,11 @@ button:disabled {
 }
 
 @media screen and (max-width: 768px) {
+    .horizontal-area {
+        flex-direction: column; /* 📌 세로 배치 전환 */
+        text-align: center;     /* 모바일에서는 가운데 정렬 */
+    }
+
     .page-section {
         padding: 50px 15px;
     }
@@ -241,6 +246,11 @@ button:disabled {
 }
 
 @media screen and (max-width: 480px) {
+    .horizontal-area {
+        flex-direction: column; /* 📌 세로 배치 전환 */
+        text-align: center;     /* 모바일에서는 가운데 정렬 */
+    }
+
     .page-section {
         padding: 40px 10px;
     }

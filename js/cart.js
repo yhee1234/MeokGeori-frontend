@@ -113,8 +113,7 @@ export function initCartService(customComputeDistanceBetweenRef) {
     // customComputeDistanceBetween 함수를 내부에서 사용할 수 있도록 저장합니다.
     window._customComputeDistanceBetween = customComputeDistanceBetweenRef;
 
-    // fetchAndDisplayDataMock()을 호출하여 장보기 코스를 화면에 표시합니다.
-    // 이 함수가 실행될 때 customComputeDistanceBetween를 fetchAndDisplayDataMock에 전달합니다.
+    
     fetchAndDisplayDataMock(window._customComputeDistanceBetween); 
 }
 
@@ -140,10 +139,10 @@ async function fetchAndDisplayDataMock(customComputeDistanceBetween) {
     }
 
     const storedData = sessionStorage.getItem('recommendationData');
-    if (!storedData) {
-        alert('추천 데이터가 없습니다. 다시 시도해 주세요.');
-        return;
-    }
+    // if (!storedData) {
+    //     alert('추천 데이터가 없습니다. 다시 시도해 주세요.');
+    //     return;
+    // }
     const data = JSON.parse(storedData);
 
 
