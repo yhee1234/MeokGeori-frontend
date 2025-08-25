@@ -3,6 +3,10 @@
 // LocationService를 import할 필요 없음 (sessionStorage 사용)
 // import * as LocationService from './location.js';
 
+// cart.js에서 loadShoppingDataAndMap 함수를 임포트합니다.
+import * as CartService from './cart.js'; // ⭐ 이 줄을 추가합니다. ⭐
+
+
 // init 함수를 export 하여 main.js에서 호출할 수 있도록 수정
 export function initAiChatService() { 
   document.getElementById('prompt-form')?.addEventListener('submit', handleSubmit);
@@ -35,9 +39,6 @@ async function handleSubmit(event) {
   // const resultDiv = document.getElementById('result');
   // if (resultDiv) resultDiv.textContent = 'AI 응답 대기 중...';
 
-
-  console.log('promptText:', promptText);
-  console.log('userLocation:', userLocation);
 
   try {
 
@@ -83,6 +84,13 @@ async function handleSubmit(event) {
     // AI 응답을 화면에 직접 표시하지 않고 장바구니 섹션으로 이동 (팀원분의 의도 반영)
     console.log('AI 응답:', data); // 콘솔에 응답 출력
     window.location.href = '#cart-list'; // 장바구니 섹션으로 스크롤
+
+    // ⭐ 지도가 보이지 않는 문제 해결을 위한 호출 ⭐
+    // 페이지 스크롤이 완료된 후 지도가 올바르게 로드되도록 합니다.
+    // setTimeout을 사용하여 스크롤 후 브라우저가 DOM을 다시 그릴 시간을 줍니다.
+    setTimeout(() => {
+        CartService.loadShoppingDataAndMap(); // ⭐ 이 줄을 추가합니다. ⭐
+    }, 500); // 0.5초 대기 후 지도 로드 함수 호출
 
     // 만약 AI 응답을 화면에 표시해야 한다면 아래 코드 활용
     // if (resultDiv && data.message) {

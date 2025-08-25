@@ -45,12 +45,17 @@ function initMap(userLocation, shoppingCourse, customComputeDistanceBetween) {
             title: course.martName
         });
         
-        // 인포윈도우에 마트 이름 표시 (마우스 오버 시 열리도록 변경)
+        // 인포윈도우에 마트 이름 표시 
         const infowindow = new kakao.maps.InfoWindow({
-            content: `<div style="padding:5px;font-size:12px;">${index + 1}. ${course.martName}</div>`
+            content: `<div style="padding:3px; font-size:12px; ">${index + 1}. ${course.martName}</div>`
         });
-        kakao.maps.event.addListener(marker, 'mouseover', () => infowindow.open(map, marker));
-        kakao.maps.event.addListener(marker, 'mouseout', () => infowindow.close());
+        
+        //인포윈도우 항상 표시
+        infowindow.open(map, marker);
+
+        //인포윈도우 마우스 오버시 열림
+        // kakao.maps.event.addListener(marker, 'mouseover', () => infowindow.open(map, marker));
+        // kakao.maps.event.addListener(marker, 'mouseout', () => infowindow.close());
     });
     
     // 경로 선 그리기
@@ -64,23 +69,23 @@ function initMap(userLocation, shoppingCourse, customComputeDistanceBetween) {
     polyline.setMap(map);
 
     // 각 구간별 이동 시간 표시 (새로 추가된 로직)
-    for (let i = 0; i < points.length - 1; i++) {
-        const midLat = (points[i].getLat() + points[i + 1].getLat()) / 2;
-        const midLng = (points[i].getLng() + points[i + 1].getLng()) / 2;
-        const midPosition = new kakao.maps.LatLng(midLat, midLng);
+    // for (let i = 0; i < points.length - 1; i++) {
+    //     const midLat = (points[i].getLat() + points[i + 1].getLat()) / 2;
+    //     const midLng = (points[i].getLng() + points[i + 1].getLng()) / 2;
+    //     const midPosition = new kakao.maps.LatLng(midLat, midLng);
 
-        // 각 구간 소요 시간 가져오기 (데이터에 travelTime 속성 필요)
-        const traveltimeText = shoppingCourse[i]?.travelTime || '시간 정보 없음';
+    //     // 각 구간 소요 시간 가져오기 (데이터에 travelTime 속성 필요)
+    //     const traveltimeText = shoppingCourse[i]?.travelTime || '시간 정보 없음';
 
-        const customOverlay = new kakao.maps.CustomOverlay({
-            position: midPosition,
-            content: `<div style="padding:4px 8px; background:rgba(255,255,255,0.9); border-radius:6px; font-size:12px; border:1px solid #ccc;">
-                        ${traveltimeText}
-                    </div>`,
-            map: map,
-            yAnchor: 1
-        });
-    }
+    //     const customOverlay = new kakao.maps.CustomOverlay({
+    //         position: midPosition,
+    //         content: `<div style="padding:4px 8px; background:rgba(255,255,255,0.9); border-radius:6px; font-size:12px; border:1px solid #ccc;">
+    //                     ${traveltimeText}
+    //                 </div>`,
+    //         map: map,
+    //         yAnchor: 1
+    //     });
+    // }
 
     // ⭐ 총 이동 거리 계산 (하버사인 공식 기반 customComputeDistanceBetween 사용) ⭐
     // sphericalGeometry가 로드되지 않는 문제에 대응하기 위함입니다.

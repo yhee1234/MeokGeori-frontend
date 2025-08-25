@@ -79,7 +79,7 @@ async function init() {
         }, {
             // geometry 라이브러리는 하버사인 공식으로 대체되므로 사실상 필요 없으나,
             // Kakao Maps API 특성상 모든 services 라이브러리가 명시되어야 할 수 있어 유지합니다.
-            libraries: ['services', 'clusterer', 'drawing'] 
+            libraries: ['services', 'clusterer', 'drawing', 'geometry'] 
         });
     } else {
         console.error("Kakao Maps API 로드 객체를 찾을 수 없거나 kakao.maps.load 함수가 없습니다. 지도 서비스 초기화 실패.");
