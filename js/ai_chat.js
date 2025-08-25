@@ -43,7 +43,7 @@ async function handleSubmit(event) {
   try {
 
     // ⭐ 서버에 POST 요청 보내기 - 실제 서버 주소로 변경 필요 ⭐
-    const response = await fetch('http://43.200.245.28:8080/api/recommend/course', { // ⭐ 서버 주소 설정 필요 ⭐
+    const response = await fetch('https://43.200.245.28:8080/api/recommend/course', { // ⭐ 서버 주소 설정 필요 ⭐
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
