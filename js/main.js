@@ -79,7 +79,7 @@ async function init() {
         }, {
             // geometry 라이브러리는 하버사인 공식으로 대체되므로 사실상 필요 없으나,
             // Kakao Maps API 특성상 모든 services 라이브러리가 명시되어야 할 수 있어 유지합니다.
-            libraries: ['services', 'clusterer', 'drawing', 'geometry'] 
+            libraries: ['services', 'clusterer', 'drawing'] 
         });
     } else {
         console.error("Kakao Maps API 로드 객체를 찾을 수 없거나 kakao.maps.load 함수가 없습니다. 지도 서비스 초기화 실패.");
@@ -121,7 +121,6 @@ async function init() {
             console.log("서비스 시작 버튼 클릭됨. 사용자 입력 페이지로 스크롤합니다.");
             Utils.scrollToSection('ai-guide');
             // ⭐ CartService에서 장보기 데이터를 로드하고 지도를 표시하는 함수 호출 ⭐
-            CartService.loadShoppingDataAndMap(); 
         });
     }
 

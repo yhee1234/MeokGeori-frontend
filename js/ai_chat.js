@@ -36,6 +36,9 @@ async function handleSubmit(event) {
   // if (resultDiv) resultDiv.textContent = 'AI 응답 대기 중...';
 
 
+  console.log('promptText:', promptText);
+  console.log('userLocation:', userLocation);
+
   try {
 
     // ⭐ 서버에 POST 요청 보내기 - 실제 서버 주소로 변경 필요 ⭐
